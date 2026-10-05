@@ -1,11 +1,32 @@
 # 深渊 ABYSSAL · DSH UI 皮肤
 
+[![dsh-plugin](https://img.shields.io/badge/topic-dsh--plugin-0969da?logo=github)](https://github.com/topics/dsh-plugin)
+[![DeepSeek Harness](https://img.shields.io/badge/DeepSeek%20Harness-plugin-4d6bfe)](https://github.com/deepseek-ai/deepseek-harness)
+
 > 近黑深海底 · 单一生物荧光光源 · 只透光不加厚边的玻璃
 
 按 **`dsh.ecosystem.ui-skin-loader/v1`** 公约实现的 DSH 皮肤包。装好后出现在
 **设置 → 皮肤** 的卡片墙里，与其它皮肤并列，一键切换。
 
 ![外观矩阵](preview/abyssal-matrix.png)
+
+## 这是一个 DSH 插件
+
+本仓库是 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) 的插件（皮肤类）。
+按官方 README「Community and support」一节的要求，仓库已打上
+[`dsh-plugin`](https://github.com/topics/dsh-plugin) topic，便于在
+[github.com/topics/dsh-plugin](https://github.com/topics/dsh-plugin) 被发现；
+`package.json` 的 `keywords` 与 `dsh.skin.tags` 里同样带 `dsh-plugin`。
+
+三种安装方式，任选其一：
+
+| 方式 | 命令 / 操作 |
+| --- | --- |
+| git（无需下载包） | `dsh plugin --profile desktop add https://github.com/tenebris173/dsh-skin-abyssal` |
+| 美化包 | 从 [Releases](https://github.com/tenebris173/dsh-skin-abyssal/releases) 下 `ABYSSAL-UI-*.zip`，双击 `安装深渊皮肤.cmd` |
+| 本地源码 | 见下方「安装 → B. 从源码装」 |
+
+> 装完**必须重启 DSH**（插件包只在启动时进启动图），随后在 **设置 → 皮肤** 里一键切换。
 
 ## 外观
 
