@@ -1,0 +1,127 @@
+# 深渊 ABYSSAL · DSH UI 皮肤
+
+> 近黑深海底 · 单一生物荧光光源 · 只透光不加厚边的玻璃
+
+按 **`dsh.ecosystem.ui-skin-loader/v1`** 公约实现的 DSH 皮肤包。装好后出现在
+**设置 → 皮肤** 的卡片墙里，与其它皮肤并列，一键切换。
+
+![外观矩阵](preview/abyssal-matrix.png)
+
+## 外观
+
+| 项 | 选项 | 默认 |
+| --- | --- | --- |
+| 底色 | 深海 / 午夜 / 墨黑 / 极地 | 深海 |
+| 强调色 | 薄荷绿 / 冷青 / 靛紫 / 琥珀 / 珊瑚 | 薄荷绿 |
+| 圆角密度 | 柔（14px）/ 均衡（原生）/ 紧（9px） | 柔 |
+| 背景极光 | 强 / 柔 / 关 | 柔 |
+| 胶片颗粒 | 开 / 关 | 开 |
+
+4 × 5 × 3 × 3 × 2 = **360 种组合**，改档即时生效并跨重启保留
+（皮肤自治：`localStorage`，键 `dsh.skin.abyssal.preferences.v1`）。
+
+## 安装
+
+### A. 用打包好的美化包（推荐给最终用户）
+
+下载 release 里的 `ABYSSAL-UI-*.zip`，解压后双击 `安装深渊皮肤.cmd`。脚本会找到本机 DSH
+（优先用你**正在运行**的那个），用官方途径装进 `desktop` profile，并把 `activeSkin` 切到本皮肤。
+
+### B. 从源码装（开发）
+
+```powershell
+# 应用目录（默认装在当前用户的 LocalAppData 下；装在 Program Files 时改成对应路径）
+$app = "$env:LOCALAPPDATA\Programs\DeepSeek Harness"
+$cli = "$app\resources\app.asar\dsh\node_modules\@deepseek-ai\dsh-desktop-host\lib\cli.js"
+
+# 以软链方式安装（改代码刷新即生效）
+& "$app\DeepSeek Harness.exe" $cli plugin --profile desktop add "<本仓库绝对路径>"
+
+# 卸载
+& "$app\DeepSeek Harness.exe" $cli plugin --profile desktop remove dsh-skin-abyssal
+```
+
+装完**必须重启 DSH**（新增插件包只在启动时进启动图）。切换皮肤也可以直接在
+**设置 → 皮肤** 里点，不必手改配置。
+
+### C. 从 1.0.2 及更早升级
+
+1.0.3 换了命名空间：皮肤 id 统一为 `skins.abyssal`，包名统一为 `dsh-skin-abyssal`
+（旧值带个人标识，见 1.0.2 的 package.json）。旧 id 不会自动继承，需重装一次：
+
+```powershell
+# 1) 完全退出 DSH —— 运行中 pnpm 会报 ERR_PNPM_EPERM（node_modules 被占用）
+
+# 2) 查出旧包名并卸掉（这里不重复写出旧值）
+& "$app\DeepSeek Harness.exe" $cli plugin --profile desktop list | Select-String 'skin-abyssal'
+& "$app\DeepSeek Harness.exe" $cli plugin --profile desktop remove <上面查到的旧包名>
+
+# 3) 装新包
+& "$app\DeepSeek Harness.exe" $cli plugin --profile desktop add "<本仓库绝对路径>"
+
+# 4) 把 profile patch 里任何 *.skin.abyssal 形式的旧 id 换成新 id（改前先备份）
+$patch = "$env:USERPROFILE\.dsh\profiles\desktop\cordis.patch.yml"
+Copy-Item $patch "$patch.bak"
+(Get-Content $patch -Raw) -replace '[\w.-]+\.skin\.abyssal', 'skins.abyssal' |
+  Set-Content $patch -Encoding UTF8 -NoNewline
+```
+
+也可以直接双击美化包里的 `安装深渊皮肤.cmd` —— 它会把新包装上并把 `activeSkin` 切过来。
+
+## 设计语言
+
+1. **单光源** —— 整屏只有一组极光（左下强调色、右上靛紫、右下冷青），面板用半透明表面透出它，
+   层级靠表面亮度而非阴影。
+2. **发丝线分层** —— `rgba(158,196,255,.10)` 1px 描边 + 3% 白表面；永不加厚边。
+3. **强调色纪律** —— 强调色只给「当前 / 可点 / 运行中」；成功 / 警告 / 危险保持独立语义色。
+4. **仪表感** —— 元数据用等宽字体，数字 tabular。
+
+## 实现要点
+
+- **观感承载**：`theme.overrideTokens()` 覆盖宿主公开 token ——
+  `--dsw-alias-*`(107)、`--dsw-specific-*`(11)、`--dsw-menu-*`、`--dsw-linear-*`、
+  `--dsw-radius-*`、`--dsw-static-neutral(-bluish)-*` 中性灰阶。覆盖一律带 `!important`
+  （宿主有内联 token）。
+- **驱动宿主的亮暗开关**：宿主的亮暗分支是 `body[data-ds-dark-theme]`，而
+  `--dsw-specific-input-major` 这类表面 token 只在暗色分支里有定义。皮肤是纯暗色，
+  所以激活时置位该属性、退出时还原 —— 否则未覆盖的表面会落进 light 分支。
+- **浮层实色兜底**：`[role="dialog"] / [aria-modal] / [role="menu|listbox|tooltip"]`
+  强制实色 + 直角，保证弹窗永远不透出正文（用标准语义属性，不碰宿主私有类名）。
+- **背景**：极光与颗粒画在 `body` 背景上（多层 `radial-gradient` + 内联 SVG 噪声），
+  **不新增浮层**，因此没有 z-index / 层叠上下文风险。
+- **自有节点**：只有一个 `<style data-skn-abyssal-style>` 与 `body[data-skn-abyssal]` 标记。
+- **生命周期**（公约 §4.3 / R8）：activate 的每项副作用都登记 disposer，teardown 幂等；
+  `deactivate` / `skinCtx.signal` abort / fiber 意外 dispose 三路汇合，退出后 token 与节点全部还原。
+- **设置面板**：经 `settings.section` 席位注册 React 组件，只在皮肤激活时出现。
+
+## 自测
+
+```powershell
+# 真实浏览器引擎里跑真实 bundle（需 Chrome 以 --remote-debugging-port=9222 启动）
+node tests/browser-smoke.mjs
+
+# 也可以指向任意构建产物
+$env:SKIN_BUNDLE = "dist/package/lib/client.js"; node tests/browser-smoke.mjs
+```
+
+30 项断言：模块外壳 → `registerSkin` 载荷 → activate 副作用 → **真实 CSS 层叠**
+（`getComputedStyle` 读 token 与背景是否真的生效）→ 改档即时重算 → teardown 净场。
+
+## 目录
+
+```
+lib/index.js          宿主半（空 apply：观感全在 client 半）
+lib/client.js         皮肤本体（登记 / token 表 / 外观面板 / 生命周期）
+cordis.patch.yml      bundle patch（row id = 设置命名空间）
+install/              一键安装 / 卸载脚本（美化包同款）
+preview/              外观矩阵图 + 卡片预览 SVG
+tests/browser-smoke.mjs
+```
+
+## 更新记录
+
+见 [CHANGELOG.md](CHANGELOG.md)。
+
+## 许可
+
+MIT。

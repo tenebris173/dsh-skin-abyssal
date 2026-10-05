@@ -1,0 +1,11 @@
+# Bundle patch layer of dsh-skin-abyssal (api-notes §1.2 form).
+#
+# Row id doubles as the skin's settings namespace (api-notes §8.1: entry id ==
+# settings namespace == configForms.get() entryId). 本皮肤的外观设置由皮肤自己
+# 持久化（localStorage，皮肤自治），因此这里不声明 config；行 id 只用于挂载 entry。
+#   row id        : dsh-skin-abyssal
+#   skin id       : skins.abyssal
+#   package name  : dsh-skin-abyssal
+- insert:
+    - id: dsh-skin-abyssal
+      name: "dsh-skin-abyssal"
