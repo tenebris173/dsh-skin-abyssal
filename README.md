@@ -151,10 +151,10 @@ Copy-Item $patch "$patch.bak"
 | --- | --- | --- |
 | `tests/browser-smoke.mjs` | 控制台路径：登记载荷 / 激活副作用 / **真实 CSS 层叠** / teardown | 31 |
 | `tests/console-wait.mjs` | **控制台迟到 1 秒（不许误判自立）** / 控制台始终不出现（自立 + 能回原生） | 18 |
-| `tests/skin-selector.mjs` | 「皮肤」选择器：控制台模式走 switchTo / 自立模式走开关自己 | 4 |
+| `tests/skin-selector.mjs` | 「皮肤」选择器：控制台模式走 switchTo / 自立模式走开关自己 | 9 |
 | `tests/dependency-check.mjs` | 宿主半依赖自检 | 6 |
 
-合计 **59 项断言**。
+合计 **64 项断言**。
 
 
 ```powershell
