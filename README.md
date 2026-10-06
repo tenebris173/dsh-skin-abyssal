@@ -2,6 +2,7 @@
 
 [![dsh-plugin](https://img.shields.io/badge/topic-dsh--plugin-0969da?logo=github)](https://github.com/topics/dsh-plugin)
 [![DeepSeek Harness](https://img.shields.io/badge/DeepSeek%20Harness-plugin-4d6bfe)](https://github.com/deepseek-ai/deepseek-harness)
+[![test](https://github.com/tenebris173/dsh-skin-abyssal/actions/workflows/test.yml/badge.svg)](https://github.com/tenebris173/dsh-skin-abyssal/actions/workflows/test.yml)
 
 > 近黑深海底 · 单一生物荧光光源 · 只透光不加厚边的玻璃
 
@@ -127,6 +128,23 @@ $env:SKIN_BUNDLE = "dist/package/lib/client.js"; node tests/browser-smoke.mjs
 
 31 项断言：模块外壳 → `registerSkin` 载荷 → activate 副作用 → **真实 CSS 层叠**
 （`getComputedStyle` 读 token 与背景是否真的生效）→ 改档即时重算 → teardown 净场。
+
+### 端到端扫测（注入真实 DSH 页面）
+
+```bash
+# 1) 起一个 DSH 页面，记下打印的 URL
+dsh web --no-open --port 0
+# 2) 让 Chrome 开着 CDP
+google-chrome --headless=new --remote-debugging-port=9222 --user-data-dir=/tmp/cdp about:blank
+# 3) 跑
+node tests/e2e-sweep.mjs "<上面那个 URL>" e2e-out
+```
+
+把 bundle 注入**正在运行的 DSH 页面**实跑一轮：激活副作用 → 逐档切换（真实 `getComputedStyle` 读值）→
+CDP 模拟系统亮色 → 连切 10 次压力 → 真实设置弹窗 → `deactivate` 净场 → 二次激活 →
+全程采集 `Runtime.exceptionThrown` 与 `console.error/warning`。
+
+> 截图会存到 `e2e-out/`，**可能包含本机会话信息，不要外传**；`e2e-report.json` 里 URL 的 token 会自动打码。
 
 ## 目录
 
