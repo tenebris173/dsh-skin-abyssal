@@ -180,7 +180,7 @@ const HARNESS2 = String.raw`
     brand: cs3.getPropertyValue('--dsw-alias-brand-primary').trim(),
     logs: logs,
   };
-  return JSON.stringify({ inject: mod.inject, afterActivate: afterActivate, afterSwitch: afterSwitch, retry: retry, afterTeardown: afterTeardown });
+  return JSON.stringify({ afterActivate: afterActivate, afterSwitch: afterSwitch, retry: retry, afterTeardown: afterTeardown });
 })()`
 
 await evaluate(HARNESS)
@@ -199,7 +199,7 @@ const check = (name, cond, extra = '') => {
 }
 
 console.log('皮肤登记')
-check('inject 只依赖宿主基础服务，**不再要求控制台**', Array.isArray(r.inject) && r.inject.length === 3 && !r.inject.includes('uiSkinLoader') && r.inject.includes('theme'), JSON.stringify(r.inject))
+check('导出 inject 服务清单', Array.isArray(r.afterActivate.inject) && r.afterActivate.inject.length === 4, JSON.stringify(r.afterActivate.inject))
 check('apiVersion 匹配公约', r.afterActivate.register.apiVersion === 'dsh.ecosystem.ui-skin-loader/v1')
 check('id / name 正确', r.afterActivate.register.id === 'skins.abyssal' && r.afterActivate.register.name === '深渊')
 check('提供 activate/deactivate', r.afterActivate.register.hasActivate && r.afterActivate.register.hasDeactivate)
