@@ -62,6 +62,8 @@ window.__dshSkins["skins.abyssal"]
 
 > 装完**必须重启 DSH**（插件包只在启动时进启动图），随后在 **设置 → 皮肤** 里一键切换。
 
+> 配套的另一款：**PRTS（罗德岛终端风）** · <https://github.com/tenebris173/dsh-skin-prts>
+
 ## 外观
 
 | 项 | 选项 | 默认 |
@@ -150,6 +152,12 @@ Copy-Item $patch "$patch.bak"
 - **设置面板**：经 `settings.section` 席位注册 React 组件，只在皮肤激活时出现。
 
 ## 自测
+
+| 脚本 | 覆盖 | 断言 |
+| --- | --- | --- |
+| `tests/browser-smoke.mjs` | 控制台路径：登记载荷 / 激活副作用 / **真实 CSS 层叠** / 改档重算 / teardown 净场 | 31 |
+| `tests/standalone.mjs` | **无控制台**：自动生效 / 统一接口 `window.__dshSkins` / 开关能卸能装 / 多皮肤让位 / 卸载全清 | 15 |
+| `tests/dependency-check.mjs` | 宿主半依赖自检（缺服务时的提示） | 7 |
 
 ```powershell
 # 真实浏览器引擎里跑真实 bundle（需 Chrome 以 --remote-debugging-port=9222 启动）
