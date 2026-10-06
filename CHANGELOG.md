@@ -11,7 +11,7 @@
   `theme "..." is already registered; rolled back to default`。
   现在注册走 `registerThemeSafe`：重复 id 时自动改用带序号的 id 兜底，激活不再整体失败。
 - 新增该场景的回归测试（把 fake theme API 改成"重复 id 必须抛错"，并模拟皮肤重载后
-  第二个实例激活）。断言数 30 → 33。
+  第二个实例激活）。断言数 30 → 31。
 
 ## 1.0.2
 
