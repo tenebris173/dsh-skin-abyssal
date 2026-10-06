@@ -125,7 +125,7 @@ node tests/browser-smoke.mjs
 $env:SKIN_BUNDLE = "dist/package/lib/client.js"; node tests/browser-smoke.mjs
 ```
 
-30 项断言：模块外壳 → `registerSkin` 载荷 → activate 副作用 → **真实 CSS 层叠**
+31 项断言：模块外壳 → `registerSkin` 载荷 → activate 副作用 → **真实 CSS 层叠**
 （`getComputedStyle` 读 token 与背景是否真的生效）→ 改档即时重算 → teardown 净场。
 
 ## 目录
