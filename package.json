@@ -1,6 +1,6 @@
 {
   "name": "dsh-skin-abyssal",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "private": true,
   "type": "module",
   "main": "lib/index.js",
@@ -24,7 +24,7 @@
       "apiVersion": "dsh.ecosystem.ui-skin-loader/v1",
       "id": "skins.abyssal",
       "name": "深渊",
-      "version": "1.0.10",
+      "version": "1.0.11",
       "author": "tenebris173",
       "description": "近黑深海底 + 单一生物荧光光源 + 只透光不加厚边的玻璃；支持底色/强调色/圆角密度/极光强度切换。",
       "tags": [
