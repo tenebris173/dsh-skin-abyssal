@@ -11,11 +11,11 @@
   },
   "description": "「深渊」—— 深海底玻璃拟态皮肤：单一生物荧光光源 + 发丝线分层，可在设置里切换底色 / 强调色 / 圆角密度 / 极光强度。",
   "peerDependencies": {
-    "@deepseek-ai/dsh": "0.1.7-rc.2 || 0.2.0-rc.2",
+    "@deepseek-ai/dsh": ">=0.2.0-rc.2 <0.3.0-0",
     "@deepseek-ai/cordis": "~4.0.4"
   },
   "engines": {
-    "dsh": "0.1.7-rc.2 || 0.2.0-rc.2",
+    "dsh": ">=0.2.0-rc.2 <0.3.0-0",
     "node": ">=24"
   },
   "dsh": {
